@@ -8,7 +8,7 @@ def print_hi(name):
 if __name__ == '__main__':
 
     carpeta = input("ingrese la ruta de la carpeta en donde se encuentran los archivos -> : "
-                    "  (ejemplo: C:\\Users\\sebas\\Documents\\software)")
+                    "  (ejemplo: C:\\Users\\sebas\\Documents\\software\\pruebas1)")
     palabra = input("ingrese ahora la palabra que se desea buscar -> :")
 
     controller = WordsCounterController(carpeta, palabra)

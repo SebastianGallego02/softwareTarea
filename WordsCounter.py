@@ -28,27 +28,29 @@ class WordsCounter:
                 self._rutas.append(ruta_completa)
         except FileNotFoundError:
             return "la carpeta indicada no existe"
+        except OSError:
+            return "No se encontraron archivos de texto en la carpeta"
 
 
 
-    def leerArchivo(self, archivo_ruta):
-        extension = archivo_ruta.split('.')[-1].lower()
-        archivoNombre = archivo_ruta.split('\\')[-1].lower()  # Obtener la extensión del archivo
+    def leerArchivo(self, archivoRuta):
+        extension = archivoRuta.split('.')[-1].lower()
+        archivoNombre = archivoRuta.split('\\')[-1].lower()  # Obtener la extensión del archivo
         texto = []
         match extension:
             case 'json':
-                with open(archivo_ruta, 'r') as file:
+                with open(archivoRuta, 'r') as file:
                     contenido = json.load(file)
                     for palabra in contenido:
                         print(palabra)
             case 'csv':
-                with open(archivo_ruta, 'r') as file:
+                with open(archivoRuta, 'r') as file:
                     contenido = csv.reader(file)
                     for fila in contenido:
                         for palabra in fila:
                             texto.append(palabra)
             case 'xml':
-                tree = ET.parse(archivo_ruta)
+                tree = ET.parse(archivoRuta)
                 root = tree.getroot()
                 for elem in root.iter():
                     if elem.text:
@@ -56,7 +58,7 @@ class WordsCounter:
                         for palabra in palabras:
                             texto.append(palabra)
             case 'txt':
-                with open(archivo_ruta, 'r') as file:
+                with open(archivoRuta, 'r') as file:
                     contenido = file.read()
                 palabras = contenido.split()
                 for palabra in palabras:
@@ -67,10 +69,3 @@ class WordsCounter:
         self._texts[archivoNombre] = texto
         return True
 
-
-    def contarPalabra(self, palabraBuscada, texto):
-        totalAparicioines = 0
-        for palabra in texto:
-            if palabra == palabraBuscada:
-                totalAparicioines += 1
-        return totalAparicioines
